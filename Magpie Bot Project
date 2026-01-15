@@ -1,0 +1,148 @@
+import java.util.Scanner;
+
+public class Main {
+
+    static Scanner in = new Scanner(System.in);
+    static String statement;
+
+    public static void main(String[] args) {
+        System.out.println(
+            "Hello! I'm the ASH Info-Bot. Ask me anything about teachers, classes, clubs or sports."
+        );
+        answer();
+    }
+
+    public static void answer() {
+        System.out.println("What is your question?");
+        statement = in.nextLine();
+
+        String response = getResponse(statement);
+        System.out.println(response);
+
+        confirm();
+    }
+
+    public static void confirm() {
+        System.out.println("Does this answer your question?");
+        statement = in.nextLine();
+
+        if (statement.equalsIgnoreCase("yes")) {
+            System.out.println("Awesome! Glad I could help!");
+            anotherQuestion();
+        } else if (statement.equalsIgnoreCase("no")) {
+            System.out.println("No worries! Try asking the question another way.");
+            answer();
+        } else {
+            System.out.println("Sorry, please answer only 'yes' or 'no'.");
+            confirm();
+        }
+    }
+
+    public static void anotherQuestion() {
+        System.out.println("Do you have any other questions?");
+        statement = in.nextLine();
+
+        if (statement.equalsIgnoreCase("yes")) {
+            answer();
+        } else if (statement.equalsIgnoreCase("no")) {
+            System.out.println("Have a great day!");
+        } else {
+            System.out.println("Sorry, please answer only 'yes' or 'no'.");
+            anotherQuestion();
+        }
+    }
+
+    public static String getResponse(String statement) {
+        statement = statement.toLowerCase();
+
+        // Classes
+        String[] classes = {
+            "math", "science", "english", "history",
+            "economics", "computer science", "language", "the principal"
+        };
+
+        // Teachers
+        String[] teachers = {
+            "Mr. Adams", "Mrs. Baker", "Ms. Clark", "Mr. Daniels",
+            "Mrs. Evans", "Mr. Flores", "Ms. Garcia", "Mr Munro"
+        };
+
+        // Clubs
+        String[] clubs = {"robotics", "drama", "art", "chess", "debate"};
+
+        // Club descriptions
+        String[] clubInfo = {
+            "Robotics meets Tuesdays after school in Lab 3.",
+            "Drama club meets Thursdays during lunch in the theatre.",
+            "Art club meets Mondays during lunch in Room 12.",
+            "Chess club meets Wednesdays after school.",
+            "Debate team meets Fridays after school in Room 101."
+        };
+
+        // Sports
+        String[] sports = {"Basketball", "Soccer", "Track", "Baseball", "Volleyball"};
+        String[] coaches = {
+            "Coach Ball", "Coach Gomez", "Coach Lane", "Coach Smith", "Coach Turner"
+        };
+
+        // Class times
+        String[] times = {
+            "8:30", "10:15", "11:35", "12:45",
+            "2:05", "3:30", "4:15", "5:00"
+        };
+
+        // Who teaches
+        if (statement.contains("who") && statement.contains("teaches")) {
+            for (int i = 0; i < classes.length; i++) {
+                if (statement.contains(classes[i])) {
+                    return "The teacher for " + classes[i] + " is " + teachers[i] + ".";
+                }
+            }
+            return "I'm not sure which class you're asking about.";
+        }
+
+        // Who is
+        if (statement.contains("who is")) {
+            for (int i = 0; i < teachers.length; i++) {
+                if (statement.contains(teachers[i].toLowerCase())) {
+                    return teachers[i] + " teaches " + classes[i] + ".";
+                }
+            }
+        }
+
+        // Clubs
+        if (statement.contains("when") && statement.contains("club")) {
+            for (int i = 0; i < clubs.length; i++) {
+                if (statement.contains(clubs[i])) {
+                    return clubInfo[i];
+                }
+            }
+        }
+
+        // Sports
+        if (statement.contains("who") && statement.contains("coaches")) {
+            for (int i = 0; i < sports.length; i++) {
+                if (statement.contains(sports[i].toLowerCase())) {
+                    return sports[i] + " is coached by " + coaches[i] + ".";
+                }
+            }
+        }
+
+        // When is
+        if (statement.contains("when is")) {
+            for (int i = 0; i < classes.length && i < times.length; i++) {
+                if (statement.contains(classes[i])) {
+                    return classes[i] + " starts at " + times[i] + ".";
+                }
+            }
+        }
+
+        // Default
+        return "I'm sorry, I don't understand. Can you try rephrasing the question?";
+    }
+
+    // Capitalizing the first letter
+    public static String capitalize(String s) {
+        return s.substring(0, 1).toUpperCase() + s.substring(1);
+    }
+}
